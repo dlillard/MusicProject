@@ -5,19 +5,30 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.*;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.dlillard.musicproject.model.api.SearchAttributeSetsReceiver;
+import com.example.dlillard.musicproject.model.api.SoundCloudModule;
+import com.example.dlillard.musicproject.model.library.AttributeSet;
+
+import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements SearchAttributeSetsReceiver {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        SoundCloudModule module = new SoundCloudModule();
+        module.search(this, AttributeSet.AttributeName.TITLE, "Starfucker");
+
+        /*
         RequestQueue queue = Volley.newRequestQueue(this);
 
         final TextView mTextView = (TextView) findViewById(R.id.text);
@@ -37,7 +48,16 @@ public class MainActivity extends ActionBarActivity {
                 mTextView.setText("That didn't work!");
             }
         });
-        queue.add(stringRequest);
+        queue.add(stringRequest);*/
+    }
+
+    public void onSearchLoaded(ArrayList<AttributeSet> results){
+        Toast.makeText(this, "loaded", Toast.LENGTH_LONG).show();
+        if(results.size()==0) return;
+        System.out.println(results.get(0).getName() + " results.");
+        for(int i=0;i<results.size();i++){
+            System.out.println(results.get(i));
+        }
     }
 
 

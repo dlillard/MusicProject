@@ -4,6 +4,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".ApplicationContext"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -17,5 +18,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name = "android.permission.INTERNET"/>
 
 </manifest>
