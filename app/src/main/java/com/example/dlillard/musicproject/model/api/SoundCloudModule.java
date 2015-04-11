@@ -11,6 +11,7 @@ import com.example.dlillard.musicproject.model.library.AttributeSet;
 import com.example.dlillard.musicproject.model.library.AttributeSet.AttributeName;
 import com.example.dlillard.musicproject.model.library.SongList;
 import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
@@ -41,17 +42,20 @@ public class SoundCloudModule implements APIModule {
 
         System.out.println("MADE IT TO JSONARRAY PARSING.");
         System.out.println("JSONARRAY:\n" + jsonArray.toString());
+        System.out.println(jsonArray.length());
 
         ArrayList<AttributeSet> results = new ArrayList<AttributeSet>();
         for(int i=0;i<jsonArray.length();i++) {
+            AttributeSet attributeSet=null;
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                AttributeSet attributeSet = mapper.readValue(jsonObject.toString(), AttributeSet.class);
-                attributeSet.setName(SERVICE_NAME);
-                results.add(attributeSet);
+                attributeSet = mapper.readValue(jsonObject.toString(), AttributeSet.class);
             }catch(Exception e){
                 e.printStackTrace();
-                Toast.makeText(ApplicationContext.app, "Loading of " + SERVICE_NAME + "failed.", Toast.LENGTH_SHORT).show();
+            }
+            if(attributeSet!=null) {
+                attributeSet.setName(SERVICE_NAME);
+                results.add(attributeSet);
             }
         }
         receiver.onSearchLoaded(results);
@@ -73,7 +77,6 @@ public class SoundCloudModule implements APIModule {
         JsonArrayRequest request = new JsonArrayRequest(searchURL, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                System.out.println("<MET><MET><MET><MET><MET><MET><MET>");
                 thisModule.JSONArrayToAttributeSets(response);
             }
         },  new Response.ErrorListener() {

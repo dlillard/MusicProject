@@ -13,6 +13,8 @@ public class AttributeSet {
     private HashMap<AttributeName, String> attributes;
     private String name;
 
+    public AttributeSet(){}
+
     public AttributeSet(String name) {
         this.name=name;
         attributes = new HashMap<AttributeName, String>();
@@ -20,11 +22,29 @@ public class AttributeSet {
 
     @JsonCreator
     public AttributeSet(Map<String,Object> delegate) {
-        attributes.put(AttributeName.TITLE, delegate.get("title").toString());////
-        attributes.put(AttributeName.ID, delegate.get("id").toString());
-        attributes.put(AttributeName.DATE, delegate.get("created_at").toString());////
-        attributes.put(AttributeName.USER, delegate.get("user").toString());
+        attributes = new HashMap<AttributeName, String>();
+        System.out.println("- - - - - - - - -  - - - -  -");
+        System.out.println(delegate);
+        System.out.println("- - - - - - - - -  - - - -  -");
+
+        insertFromDelegate(delegate, "title");
+
+        insertFromDelegate(delegate, "id");
+
+        insertFromDelegate(delegate, "created_at");
+
+        insertFromDelegate(delegate, "user");
+
     }
+
+    private void insertFromDelegate(Map<String,Object> delegate, String key){
+        if(delegate.containsKey(key)) {
+            Object value = delegate.get(key);
+            if(value!=null)
+                attributes.put(AttributeName.TITLE, value.toString());
+        }
+    }
+
 
     public void add(AttributeName name, String value) {
 

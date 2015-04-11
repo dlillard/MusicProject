@@ -53,7 +53,10 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
 
     public void onSearchLoaded(ArrayList<AttributeSet> results){
         Toast.makeText(this, "loaded", Toast.LENGTH_LONG).show();
-        if(results.size()==0) return;
+        if(results.size()==0){
+            Toast.makeText(ApplicationContext.app, "Empty set loaded.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         System.out.println(results.get(0).getName() + " results.");
         for(int i=0;i<results.size();i++){
             System.out.println(results.get(i));
