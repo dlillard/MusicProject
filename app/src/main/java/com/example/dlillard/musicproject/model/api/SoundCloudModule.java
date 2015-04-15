@@ -27,14 +27,10 @@ import java.util.ArrayList;
  */
 public class SoundCloudModule implements APIModule {
     private final String BASE_URL="https://api.soundcloud.com";
-//    private static final String CLIENT_ID;
+    private static final String CLIENT_ID=APICredentialLoader.getSoundCloudClientId().toString();
     private final String SERVICE_NAME="SoundCloud";
 
     private SearchAttributeSetsReceiver receiver;
-
-    public SoundCloudModule(){
-        Toast.makeText(ApplicationContext.app, APICredentialLoader.getSoundCloudClientId().toString(), Toast.LENGTH_LONG).show();
-    }
 
     ///tracks?client_id=YOUR_CLIENT_ID
     public void search(SearchAttributeSetsReceiver receiver, AttributeName criteria, String value){
@@ -76,7 +72,7 @@ public class SoundCloudModule implements APIModule {
                 searchURL=searchURL + "/tracks.json";
                 break;
         }
-//        searchURL=searchURL + "?q=" + value.toLowerCase() + "&client_id=" + CLIENT_ID;
+        searchURL=searchURL + "?q=" + value.toLowerCase() + "&client_id=" + CLIENT_ID;
         System.out.println("SEARCHING " + searchURL);//http://api.soundcloud.com/tracks.json?q=starfucker&client_id=2df053c5da34356a1c19cc6e6d5ab5cd
 
         final SoundCloudModule thisModule=this;

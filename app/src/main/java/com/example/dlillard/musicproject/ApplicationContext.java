@@ -16,7 +16,6 @@ public class ApplicationContext extends Application {
 
     @Override
     public void onCreate() {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!MET.");
         requestQueue = Volley.newRequestQueue(this);
 
         super.onCreate();

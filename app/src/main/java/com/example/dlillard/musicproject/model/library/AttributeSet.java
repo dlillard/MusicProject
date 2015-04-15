@@ -23,31 +23,28 @@ public class AttributeSet {
     @JsonCreator
     public AttributeSet(Map<String,Object> delegate) {
         attributes = new HashMap<AttributeName, String>();
-        /*System.out.println("- - - - - - - - -  - - - -  -");
-        System.out.println(delegate);
-        System.out.println("- - - - - - - - -  - - - -  -");*/
 
-        insertFromDelegate(delegate, "title");
+        insertFromDelegate(delegate, AttributeName.TITLE, "title");
 
-        insertFromDelegate(delegate, "id");
+        insertFromDelegate(delegate, AttributeName.ID, "id");
 
-        insertFromDelegate(delegate, "created_at");
+        insertFromDelegate(delegate, AttributeName.DATE, "created_at");
 
-        insertFromDelegate(delegate, "user");
+        insertFromDelegate(delegate, AttributeName.USER, "user");
 
     }
 
-    private void insertFromDelegate(Map<String,Object> delegate, String key){
+    private void insertFromDelegate(Map<String,Object> delegate, AttributeName name, String key){
         if(delegate.containsKey(key)) {
             Object value = delegate.get(key);
             if(value!=null)
-                attributes.put(AttributeName.TITLE, value.toString());
+                attributes.put(name, value.toString());
         }
     }
 
 
     public void add(AttributeName name, String value) {
-
+        attributes.put(name, value.toString());
     }
 
     public String getName() {
@@ -73,13 +70,14 @@ public class AttributeSet {
     public String toString(){
         StringBuilder builder = new StringBuilder();
         Iterator i = attributes.entrySet().iterator();
+        builder.append("(");
         while(i.hasNext()){
             Map.Entry<AttributeName, String> entry = (Map.Entry<AttributeName, String>) i.next();
-            builder.append("(");
             builder.append(entry.getKey().name());
             builder.append(", ");
             builder.append(entry.getValue());
         }
+        builder.delete(builder.length()-2,builder.length());
         builder.append(")");
         return builder.toString();
     }
