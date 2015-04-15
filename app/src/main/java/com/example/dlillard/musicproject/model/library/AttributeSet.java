@@ -23,9 +23,9 @@ public class AttributeSet {
     @JsonCreator
     public AttributeSet(Map<String,Object> delegate) {
         attributes = new HashMap<AttributeName, String>();
-        System.out.println("- - - - - - - - -  - - - -  -");
+        /*System.out.println("- - - - - - - - -  - - - -  -");
         System.out.println(delegate);
-        System.out.println("- - - - - - - - -  - - - -  -");
+        System.out.println("- - - - - - - - -  - - - -  -");*/
 
         insertFromDelegate(delegate, "title");
 
@@ -79,8 +79,8 @@ public class AttributeSet {
             builder.append(entry.getKey().name());
             builder.append(", ");
             builder.append(entry.getValue());
-            builder.append("\t");
         }
+        builder.append(")");
         return builder.toString();
     }
 

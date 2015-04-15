@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
 
 
         SoundCloudModule module = new SoundCloudModule();
-        module.search(this, AttributeSet.AttributeName.TITLE, "Starfucker");
+//        module.search(this, AttributeSet.AttributeName.TITLE, "Starfucker");
 
         /*
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
             Toast.makeText(ApplicationContext.app, "Empty set loaded.", Toast.LENGTH_SHORT).show();
             return;
         }
-        System.out.println(results.get(0).getName() + " results.");
+        System.out.println(results.get(0).getName() + " results:");
         for(int i=0;i<results.size();i++){
             System.out.println(results.get(i));
         }

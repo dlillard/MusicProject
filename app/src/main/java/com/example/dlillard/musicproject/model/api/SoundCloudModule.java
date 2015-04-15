@@ -10,6 +10,7 @@ import com.example.dlillard.musicproject.ApplicationContext;
 import com.example.dlillard.musicproject.model.library.AttributeSet;
 import com.example.dlillard.musicproject.model.library.AttributeSet.AttributeName;
 import com.example.dlillard.musicproject.model.library.SongList;
+import com.example.dlillard.musicproject.util.APICredentialLoader;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,10 +27,14 @@ import java.util.ArrayList;
  */
 public class SoundCloudModule implements APIModule {
     private final String BASE_URL="https://api.soundcloud.com";
-    private final String CLIENT_ID="2df053c5da34356a1c19cc6e6d5ab5cd";
+//    private static final String CLIENT_ID;
     private final String SERVICE_NAME="SoundCloud";
 
     private SearchAttributeSetsReceiver receiver;
+
+    public SoundCloudModule(){
+        Toast.makeText(ApplicationContext.app, APICredentialLoader.getSoundCloudClientId().toString(), Toast.LENGTH_LONG).show();
+    }
 
     ///tracks?client_id=YOUR_CLIENT_ID
     public void search(SearchAttributeSetsReceiver receiver, AttributeName criteria, String value){
@@ -49,6 +54,7 @@ public class SoundCloudModule implements APIModule {
             AttributeSet attributeSet=null;
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+                System.out.println("\t" + i + "\t" + jsonObject);
                 attributeSet = mapper.readValue(jsonObject.toString(), AttributeSet.class);
             }catch(Exception e){
                 e.printStackTrace();
@@ -70,7 +76,7 @@ public class SoundCloudModule implements APIModule {
                 searchURL=searchURL + "/tracks.json";
                 break;
         }
-        searchURL=searchURL + "?q=" + value.toLowerCase() + "&client_id=" + CLIENT_ID;
+//        searchURL=searchURL + "?q=" + value.toLowerCase() + "&client_id=" + CLIENT_ID;
         System.out.println("SEARCHING " + searchURL);//http://api.soundcloud.com/tracks.json?q=starfucker&client_id=2df053c5da34356a1c19cc6e6d5ab5cd
 
         final SoundCloudModule thisModule=this;
