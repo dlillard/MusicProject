@@ -1,4 +1,4 @@
-package com.example.dlillard.musicproject;
+package com.dlillard.musicproject;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
