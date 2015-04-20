@@ -1,6 +1,6 @@
-package com.example.dlillard.musicproject.model.api;
+package com.dlillard.musicproject.controller.network;
 
-import com.example.dlillard.musicproject.model.library.AttributeSet;
+import com.dlillard.musicproject.model.library.AttributeSet;
 
 import java.util.ArrayList;
 

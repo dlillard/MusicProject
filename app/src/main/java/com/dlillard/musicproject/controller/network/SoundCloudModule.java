@@ -1,20 +1,14 @@
-package com.example.dlillard.musicproject.model.api;
+package com.dlillard.musicproject.controller.network;
 
-import android.widget.Toast;
-
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.example.dlillard.musicproject.ApplicationContext;
-import com.example.dlillard.musicproject.model.library.AttributeSet;
-import com.example.dlillard.musicproject.model.library.AttributeSet.AttributeName;
-import com.example.dlillard.musicproject.model.library.SongList;
-import com.example.dlillard.musicproject.util.APICredentialLoader;
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import com.dlillard.musicproject.util.ApplicationContext;
+import com.dlillard.musicproject.model.library.AttributeSet;
+import com.dlillard.musicproject.model.library.AttributeSet.AttributeName;
+import com.dlillard.musicproject.util.APICredentialLoader;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.dlillard.musicproject.controller.network.APIModule;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
