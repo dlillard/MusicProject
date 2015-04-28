@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.dlillard.musicproject.model.library.SoundCloudAttributeSet;
 import com.dlillard.musicproject.util.ApplicationContext;
 import com.dlillard.musicproject.model.library.AttributeSet;
 import com.dlillard.musicproject.model.library.AttributeSet.AttributeName;
@@ -15,6 +16,8 @@ import com.dlillard.musicproject.controller.network.APIModule;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 
@@ -33,10 +36,16 @@ public class SoundCloudModule implements APIModule {
     public void search(SearchAttributeSetsReceiver receiver, AttributeName criteria, String value){
         this.receiver=receiver;
         this.originalQuery=value;
+        String query;
+        try {
+             query = URLEncoder.encode(value, "utf-8");
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
         getSearchResults(criteria, value);
     }
 
-    private void JSONArrayToAttributeSets(JSONArray jsonArray){
+    private void JSONArrayToSoundCloudAttributeSets(JSONArray jsonArray){
         ObjectMapper mapper = new ObjectMapper();
 
         System.out.println("MADE IT TO JSONARRAY PARSING.");
@@ -45,11 +54,11 @@ public class SoundCloudModule implements APIModule {
 
         ArrayList<AttributeSet> results = new ArrayList<AttributeSet>();
         for(int i=0;i<jsonArray.length();i++) {
-            AttributeSet attributeSet=null;
+            SoundCloudAttributeSet attributeSet=null;
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 System.out.println("\t" + i + "\t" + jsonObject);
-                attributeSet = mapper.readValue(jsonObject.toString(), AttributeSet.class);
+                attributeSet = mapper.readValue(jsonObject.toString(), SoundCloudAttributeSet.class);
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -76,7 +85,7 @@ public class SoundCloudModule implements APIModule {
         JsonArrayRequest request = new JsonArrayRequest(searchURL, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                thisModule.JSONArrayToAttributeSets(response);
+                thisModule.JSONArrayToSoundCloudAttributeSets(response);
             }
         },  new Response.ErrorListener() {
 

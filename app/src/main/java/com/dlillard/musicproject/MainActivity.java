@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
 
 
         SoundCloudModule module = new SoundCloudModule();
-        module.search(this, AttributeSet.AttributeName.TITLE, "Starfucker");
+        module.search(this, AttributeSet.AttributeName.TITLE, "Hot+Nigga");
 
         /*
         RequestQueue queue = Volley.newRequestQueue(this);

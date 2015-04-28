@@ -14,31 +14,17 @@ import java.util.Map;
  * Created by dlillard on 4/4/15.
  */
 public class AttributeSet {
-    private HashMap<AttributeName, String> attributes;
-    private String name;
+    protected HashMap<AttributeName, String> attributes;
+    protected String name;
 
-    public AttributeSet(){}
-
-    public AttributeSet(String name) {
-        this.name=name;
+    public AttributeSet() {
         attributes = new HashMap<AttributeName, String>();
     }
 
-    @JsonCreator
-    public AttributeSet(Map<String,Object> delegate) {
-        attributes = new HashMap<AttributeName, String>();
 
-            insertFromDelegate(delegate, AttributeName.TITLE, "title");
-            insertFromDelegate(delegate, AttributeName.ID, "id");
-            insertFromDelegate(delegate, AttributeName.DATE, "created_at");
-            insertFromDelegate(delegate, AttributeName.USER, "user");
-            insertFromDelegate(delegate, AttributeName.URL, "stream_url");
-            attributes.put(AttributeName.URL, attributes.get(AttributeName.URL) + "?client_id=" + SoundCloudModule.CLIENT_ID);
-    }
 
-    private void insertFromDelegate(Map<String,Object> delegate, AttributeName name, String key){
+    protected void insertFromDelegate(Map<String,Object> delegate, AttributeName name, String key){
         if(delegate.containsKey(key)) {
-//            Toast.makeText(ApplicationContext.app, "Testicles", Toast.LENGTH_LONG).show();
             Object value = delegate.get(key);
             if(value!=null)
                 attributes.put(name, value.toString());
