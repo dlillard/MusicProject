@@ -4,11 +4,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dlillard.musicproject.controller.Playback;
 import com.dlillard.musicproject.controller.network.SearchAttributeSetsReceiver;
 import com.dlillard.musicproject.controller.network.SoundCloudModule;
 import com.dlillard.musicproject.model.library.AttributeSet;
+import com.dlillard.musicproject.model.library.Song;
 import com.dlillard.musicproject.util.ApplicationContext;
 
 import java.util.ArrayList;
@@ -48,16 +51,32 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
         queue.add(stringRequest);*/
     }
 
-    public void onSearchLoaded(ArrayList<AttributeSet> results){
-        Toast.makeText(this, "loaded", Toast.LENGTH_LONG).show();
-        if(results.size()==0){
+    public void onSearchLoaded(String originalSearch, ArrayList<AttributeSet> searchResults){
+        if(searchResults.size()==0){
             Toast.makeText(ApplicationContext.app, "Empty set loaded.", Toast.LENGTH_SHORT).show();
             return;
         }
-        System.out.println(results.get(0).getName() + " results:");
-        for(int i=0;i<results.size();i++){
-            System.out.println(results.get(i));
+
+       // Toast.makeText(this, "Playing results for " + originalSearch, Toast.LENGTH_LONG).show();
+        System.out.println(searchResults.get(0).getName() + " results:");
+        for(int i=0;i<searchResults.size();i++){
+            System.out.println(searchResults.get(i));
         }
+
+
+        ArrayList<Song> songResults = new ArrayList<Song>();
+        StringBuilder builder = new StringBuilder();
+        for(int i=0;i<searchResults.size();i++){
+            Song song = new Song();
+            song.addAtributeSet(searchResults.get(i));
+            builder.append(searchResults.get(i));
+            songResults.add(song);
+        }
+
+        ((TextView) findViewById(R.id.text)).setText(builder.toString());
+
+        ApplicationContext.playback = new Playback(songResults);
+        ApplicationContext.playback.play();
     }
 
 

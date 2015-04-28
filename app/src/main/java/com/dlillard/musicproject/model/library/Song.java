@@ -15,6 +15,10 @@ public class Song {
         data = new ArrayList<AttributeSet>();
     }
 
+    public void addAtributeSet(AttributeSet serviceData){
+        data.add(serviceData);
+    }
+
     public int getAttributeSetCount(){
         return data.size();
     }

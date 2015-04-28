@@ -1,5 +1,7 @@
 package com.dlillard.musicproject.controller.network;
 
+import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -20,15 +22,17 @@ import java.util.ArrayList;
  * Created by dlillard on 4/4/15.
  */
 public class SoundCloudModule implements APIModule {
-    private final String BASE_URL="https://api.soundcloud.com";
-    private static final String CLIENT_ID=APICredentialLoader.getSoundCloudClientId().toString();
-    private final String SERVICE_NAME="SoundCloud";
+    private static final String BASE_URL="https://api.soundcloud.com";
+    public static final String CLIENT_ID=APICredentialLoader.getSoundCloudClientId().toString();
+    private static final String SERVICE_NAME="SoundCloud";
+    private String originalQuery;
 
     private SearchAttributeSetsReceiver receiver;
 
     ///tracks?client_id=YOUR_CLIENT_ID
     public void search(SearchAttributeSetsReceiver receiver, AttributeName criteria, String value){
         this.receiver=receiver;
+        this.originalQuery=value;
         getSearchResults(criteria, value);
     }
 
@@ -54,7 +58,7 @@ public class SoundCloudModule implements APIModule {
                 results.add(attributeSet);
             }
         }
-        receiver.onSearchLoaded(results);
+        receiver.onSearchLoaded(originalQuery, results);
     }
 
 
@@ -68,7 +72,6 @@ public class SoundCloudModule implements APIModule {
         }
         searchURL=searchURL + "?q=" + value.toLowerCase() + "&client_id=" + CLIENT_ID;
         System.out.println("SEARCHING " + searchURL);//http://api.soundcloud.com/tracks.json?q=starfucker&client_id=2df053c5da34356a1c19cc6e6d5ab5cd
-
         final SoundCloudModule thisModule=this;
         JsonArrayRequest request = new JsonArrayRequest(searchURL, new Response.Listener<JSONArray>() {
             @Override

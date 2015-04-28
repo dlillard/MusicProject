@@ -8,5 +8,5 @@ import java.util.ArrayList;
  * Created by dlillard on 4/4/15.
  */
 public interface SearchAttributeSetsReceiver {
-    public void onSearchLoaded(ArrayList<AttributeSet> results);
+    public void onSearchLoaded(String originalQuery, ArrayList<AttributeSet> results);
 }
