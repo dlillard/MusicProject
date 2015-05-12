@@ -36,13 +36,13 @@ public class SoundCloudModule implements APIModule {
     public void search(SearchAttributeSetsReceiver receiver, AttributeName criteria, String value){
         this.receiver=receiver;
         this.originalQuery=value;
-        String query;
+        String query = null;
         try {
              query = URLEncoder.encode(value, "utf-8");
         }catch (UnsupportedEncodingException e){
             e.printStackTrace();
         }
-        getSearchResults(criteria, value);
+        getSearchResults(criteria, query);
     }
 
     private void JSONArrayToSoundCloudAttributeSets(JSONArray jsonArray){
