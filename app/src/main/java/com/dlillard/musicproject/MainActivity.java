@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.dlillard.musicproject.controller.Playback;
 import com.dlillard.musicproject.controller.network.SearchAttributeSetsReceiver;
 import com.dlillard.musicproject.controller.network.SoundCloudModule;
+import com.dlillard.musicproject.controller.network.SpotifyModule;
 import com.dlillard.musicproject.model.library.AttributeSet;
 import com.dlillard.musicproject.model.library.Song;
 import com.dlillard.musicproject.util.ApplicationContext;
@@ -25,8 +26,9 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
         setContentView(R.layout.activity_main);
 
 
-        SoundCloudModule module = new SoundCloudModule();
-        module.search(this, AttributeSet.AttributeName.TITLE, "Hot+Nigga");
+        //SoundCloudModule module = new SoundCloudModule();
+        SpotifyModule module = new SpotifyModule();
+        module.search(this, AttributeSet.AttributeName.TITLE, "Starfucker");
 
         /*
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -58,12 +60,12 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
         }
 
        // Toast.makeText(this, "Playing results for " + originalSearch, Toast.LENGTH_LONG).show();
-        System.out.println(searchResults.get(0).getName() + " results:");
+        System.out.println(searchResults.get(0).getName() + "results:");
         for(int i=0;i<searchResults.size();i++){
             System.out.println(searchResults.get(i));
         }
 
-
+/*
         ArrayList<Song> songResults = new ArrayList<Song>();
         StringBuilder builder = new StringBuilder();
         for(int i=0;i<searchResults.size();i++){
@@ -77,6 +79,7 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
 
         ApplicationContext.playback = new Playback(songResults);
         ApplicationContext.playback.play();
+*/
     }
 
 

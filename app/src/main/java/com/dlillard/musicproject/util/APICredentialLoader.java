@@ -25,6 +25,9 @@ public class APICredentialLoader {
                 if(line.contains("SOUNDCLOUD_CLIENT_ID=")){
                     return line.substring(21);
                 }
+                if(line.contains("SPOTIFY_CLIENT_ID=")){
+                    return line.substring(18);
+                }
             }
         } catch (IOException e) {
             return null;
