@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 
 /**
- * Created by dlillard on 4/4/15.
+ * Created by imad on 4/4/15.
  */
 public class SoundCloudModule implements APIModule {
     private static final String BASE_URL="https://api.soundcloud.com";

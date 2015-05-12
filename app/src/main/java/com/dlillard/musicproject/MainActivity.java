@@ -4,13 +4,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dlillard.musicproject.controller.Playback;
 import com.dlillard.musicproject.controller.network.SearchAttributeSetsReceiver;
 import com.dlillard.musicproject.controller.network.SoundCloudModule;
-import com.dlillard.musicproject.controller.ui.AppDrawerAdapter;
 import com.dlillard.musicproject.model.library.AttributeSet;
+import com.dlillard.musicproject.model.library.Song;
 import com.dlillard.musicproject.util.ApplicationContext;
 
 import java.util.ArrayList;
@@ -25,12 +26,7 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
 
 
         SoundCloudModule module = new SoundCloudModule();
-//        module.search(this, AttributeSet.AttributeName.TITLE, "wiz khalifa");
-
-        AppDrawerAdapter appDrawerAdapter = new AppDrawerAdapter();
-        ((ListView) findViewById(R.id.left_drawer)).setAdapter(appDrawerAdapter);
-
-
+        module.search(this, AttributeSet.AttributeName.TITLE, "Hot+Nigga");
 
         /*
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -67,6 +63,20 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
             System.out.println(searchResults.get(i));
         }
 
+
+        ArrayList<Song> songResults = new ArrayList<Song>();
+        StringBuilder builder = new StringBuilder();
+        for(int i=0;i<searchResults.size();i++){
+            Song song = new Song();
+            song.addAtributeSet(searchResults.get(i));
+            builder.append(searchResults.get(i));
+            songResults.add(song);
+        }
+
+        ((TextView) findViewById(R.id.text)).setText(builder.toString());
+
+        ApplicationContext.playback = new Playback(songResults);
+        ApplicationContext.playback.play();
     }
 
 
