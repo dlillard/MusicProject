@@ -14,7 +14,7 @@ import com.dlillard.musicproject.util.ApplicationContext;
  * Created by dlillard on 5/11/15.
  */
 public class AppDrawerAdapter extends BaseAdapter{
-    private static final String[] items= {"Search", "Recent", "Songs", "Playlists", "Artists", "Albums"};
+    private static final String[] items= {"Recent", "Songs", "Playlists", "Artists", "Albums"};
     public AppDrawerAdapter(){
     }
     @Override
