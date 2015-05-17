@@ -36,6 +36,7 @@ public class SoundCloudModule implements APIModule {
     public void search(SearchAttributeSetsReceiver receiver, AttributeName criteria, String value){
         this.receiver=receiver;
         this.originalQuery=value;
+
         String query = null;
         try {
              query = URLEncoder.encode(value, "utf-8");
@@ -48,16 +49,16 @@ public class SoundCloudModule implements APIModule {
     private void JSONArrayToSoundCloudAttributeSets(JSONArray jsonArray){
         ObjectMapper mapper = new ObjectMapper();
 
-        System.out.println("MADE IT TO JSONARRAY PARSING.");
-        System.out.println("JSONARRAY:\n" + jsonArray.toString());
-        System.out.println(jsonArray.length());
+//        System.out.println("MADE IT TO JSONARRAY PARSING.");
+//        System.out.println("JSONARRAY:\n" + jsonArray.toString());
+//        System.out.println(jsonArray.length());
 
         ArrayList<AttributeSet> results = new ArrayList<AttributeSet>();
         for(int i=0;i<jsonArray.length();i++) {
             SoundCloudAttributeSet attributeSet=null;
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                System.out.println("\t" + i + "\t" + jsonObject);
+//                System.out.println("\t" + i + "\t" + jsonObject);
                 attributeSet = mapper.readValue(jsonObject.toString(), SoundCloudAttributeSet.class);
             }catch(Exception e){
                 e.printStackTrace();
@@ -67,6 +68,7 @@ public class SoundCloudModule implements APIModule {
                 results.add(attributeSet);
             }
         }
+        System.out.println("loaded " + jsonArray.length() + "results for \"" + originalQuery + "\"");
         receiver.onSearchLoaded(originalQuery, results);
     }
 
@@ -80,7 +82,7 @@ public class SoundCloudModule implements APIModule {
                 break;
         }
         searchURL=searchURL + "?q=" + value.toLowerCase() + "&client_id=" + CLIENT_ID;
-        System.out.println("SEARCHING " + searchURL);//http://api.soundcloud.com/tracks.json?q=starfucker&client_id=2df053c5da34356a1c19cc6e6d5ab5cd
+        //System.out.println("SEARCHING " + searchURL);//http://api.soundcloud.com/tracks.json?q=starfucker&client_id=2df053c5da34356a1c19cc6e6d5ab5cd
         final SoundCloudModule thisModule=this;
         JsonArrayRequest request = new JsonArrayRequest(searchURL, new Response.Listener<JSONArray>() {
             @Override

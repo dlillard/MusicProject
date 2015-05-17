@@ -7,6 +7,9 @@ import java.util.ArrayList;
 /**
  * Created by dlillard on 4/4/15.
  */
-public interface SearchAttributeSetsReceiver {
+public interface
+        SearchAttributeSetsReceiver {
+
+
     public void onSearchLoaded(String originalQuery, ArrayList<AttributeSet> results);
 }

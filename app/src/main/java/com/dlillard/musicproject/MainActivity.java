@@ -4,10 +4,13 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -24,19 +27,22 @@ import com.dlillard.musicproject.view.SearchFragment;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements SearchAttributeSetsReceiver {
+public class MainActivity extends ActionBarActivity implements SearchAttributeSetsReceiver, MenuItemCompat.OnActionExpandListener {
     private FragmentManager fm;
     private SearchFragment searchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fm=getFragmentManager();
+        fm = getFragmentManager();
         setContentView(R.layout.activity_main);
 
-        AppDrawerAdapter appDrawerAdapter = new AppDrawerAdapter();
+        searchFragment = new SearchFragment();
+
+
+       /* AppDrawerAdapter appDrawerAdapter = new AppDrawerAdapter();
         ListView drawer = (ListView) findViewById(R.id.left_drawer);
-        drawer.setAdapter(appDrawerAdapter);
+        drawer.setAdapter(appDrawerAdapter);*/
 
 
         /*
@@ -62,15 +68,15 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
         queue.add(stringRequest);*/
     }
 
-    public void onSearchLoaded(String originalSearch, ArrayList<AttributeSet> searchResults){
-        if(searchResults.size()==0){
+    public void onSearchLoaded(String originalSearch, ArrayList<AttributeSet> searchResults) {
+        if (searchResults.size() == 0) {
             Toast.makeText(ApplicationContext.app, "Empty set loaded.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-       // Toast.makeText(this, "Playing results for " + originalSearch, Toast.LENGTH_LONG).show();
+        // Toast.makeText(this, "Playing results for " + originalSearch, Toast.LENGTH_LONG).show();
         System.out.println(searchResults.get(0).getName() + " results:");
-        for(int i=0;i<searchResults.size();i++){
+        for (int i = 0; i < searchResults.size(); i++) {
             System.out.println(searchResults.get(i));
         }
 
@@ -90,42 +96,59 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
         ApplicationContext.playback.play();*/
     }
 
+    @Override
+    public boolean onContextItemSelected (MenuItem item){
+        System.out.println("nig2");
+        return false;
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        searchFragment.onCreateOptionsMenu(menu,inflater,this);
 
 //        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-        searchFragment = new SearchFragment();
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setOnQueryTextListener(searchFragment);
-
-
-
-
-//        searchView.requestFocus();
-
         return true;
+    }
+
+
+
+    public void launchSearchFragment() {
+        System.out.println("solution");
+        fm.beginTransaction().replace(R.id.content_frame, searchFragment).commit();
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // as you specify a parent activity in AndroidManifest.xml.int id = item.getItemId();
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-        if(id == R.id.search){
-            fm.beginTransaction().replace(R.id.content_frame, searchFragment);
-        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        launchSearchFragment();
+        return false;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem item) {
+        launchSearchFragment();
+        return false;
     }
 }
