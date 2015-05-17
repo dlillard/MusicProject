@@ -62,8 +62,8 @@ public class SpotifyPlayer extends Activity implements
                     public void onInitialized(Player player) {
                         mPlayer.addConnectionStateCallback(SpotifyPlayer.this);
                         mPlayer.addPlayerNotificationCallback(SpotifyPlayer.this);
-                        mPlayer.play("spotify:track:6wtcxwSJs82tpdeIoj93LF");
-                        //Demo song (2TpxZ7JUBn3uw46aR7qd6V)-- 5eWgDlp3k6Tb5RD8690s6I
+                        mPlayer.play("spotify:track:3ISTk34XFWxJJnUs5youLa");
+
                     }
 
                     @Override

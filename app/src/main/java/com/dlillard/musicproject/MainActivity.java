@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,8 +14,10 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dlillard.musicproject.controller.Playback.SpotifyPlayer;
 import com.dlillard.musicproject.controller.network.SearchAttributeSetsReceiver;
 import com.dlillard.musicproject.controller.network.SoundCloudModule;
+import com.dlillard.musicproject.controller.network.SpotifyModule;
 import com.dlillard.musicproject.controller.ui.AppDrawerAdapter;
 import com.dlillard.musicproject.model.library.AttributeSet;
 import com.dlillard.musicproject.model.library.Song;
@@ -30,6 +33,7 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final Context context = this;
         super.onCreate(savedInstanceState);
         fm=getFragmentManager();
         setContentView(R.layout.activity_main);
@@ -38,7 +42,12 @@ public class MainActivity extends ActionBarActivity implements SearchAttributeSe
         ListView drawer = (ListView) findViewById(R.id.left_drawer);
         drawer.setAdapter(appDrawerAdapter);
 
+        SpotifyModule module = new SpotifyModule();
+        module.search(this, AttributeSet.AttributeName.TITLE, "I want it that way");
 
+        Intent intent = new Intent(context, SpotifyPlayer.class);
+
+        //startActivity(intent);
         /*
         RequestQueue queue = Volley.newRequestQueue(this);
 

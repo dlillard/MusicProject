@@ -34,6 +34,7 @@ public class SpotifyModule implements APIModule{
     private String originalValue;
     private static final String SERVICE_NAME = "Spotify";
     private String BASE_URL = "https://api.spotify.com/v1/search?q=";
+    public static int searchCase = 0;
     public void search(SearchAttributeSetsReceiver receiver, AttributeSet.AttributeName attribute, String value){
         this.receiver=receiver;
         originalValue = value;
@@ -50,47 +51,47 @@ public class SpotifyModule implements APIModule{
     private void JSONObjectToAttributeSets(JSONObject jsonObject){
         ObjectMapper mapper = new ObjectMapper();
 
-        System.out.println("============MAdE IT TO JSONOBJECT PARSING================");
-
         ArrayList<AttributeSet> results = new ArrayList<AttributeSet>();
         for(int i=0;i<jsonObject.length();i++) {
             AttributeSet attributeSet=null;
             try {
-                /* Code works
-                 JSONObject dan = jsonObject.getJSONObject("tracks");
-                JSONArray dan2 = dan.getJSONArray("items");
-                JSONObject dan3 = dan2.getJSONObject(0);
+                JSONObject dan;
+                JSONArray dan2;
+                JSONObject dan3;
 
-                System.out.println("DANNNNNNN IS " + dan3);
+                switch (searchCase) {
+                    case 1:
+                        dan = jsonObject.getJSONObject("tracks");
+                        dan2 = dan.getJSONArray("items");
+                        for (int x = 0; x < dan2.length(); x++) {
+                            dan3 = dan2.getJSONObject(x);
+                            attributeSet = mapper.readValue(dan3.toString(), SpotifyAttributeSet.class);
+                            if (attributeSet != null) {
+                                attributeSet.setName(SERVICE_NAME);
+                                results.add(attributeSet);
+                            }
+                        }
+                        break;
+                    case 2:
+                        dan = jsonObject.getJSONObject("artists");
+                        dan2 = dan.getJSONArray("items");
 
-                JSONObject dan4 = dan3.getJSONObject("album");
-
-                System.out.println("TEST RETUNS::::::::: " + dan4.getString("available_markets"));
-                 */
-
-
-                JSONObject dan = jsonObject.getJSONObject("tracks");
-                JSONArray dan2 = dan.getJSONArray("items");
-                JSONObject dan3 = dan2.getJSONObject(0);
-
-                System.out.println("DANNNNNNN IS " + dan3);
-
-                JSONObject dan4 = dan3.getJSONObject("album");
-
-                System.out.println("TEST RETUNS::::::::: " + dan4.getString("name"));
-
-
-
-                attributeSet = mapper.readValue(jsonObject.toString(), SpotifyAttributeSet.class);
-
+                        for (int x = 0; x < dan2.length(); x++) {
+                            dan3 = dan2.getJSONObject(x);
+                            attributeSet = mapper.readValue(dan3.toString(), SpotifyAttributeSet.class);
+                            if (attributeSet != null) {
+                                attributeSet.setName(SERVICE_NAME);
+                                results.add(attributeSet);
+                            }
+                        }
+                        break;
+                    case 3:
+                        break;
+                }
             }catch(Exception e){
                 e.printStackTrace();
             }
-            if(attributeSet!=null) {
 
-                attributeSet.setName(SERVICE_NAME);
-                results.add(attributeSet);
-            }
         }
         receiver.onSearchLoaded(originalValue, results);
     }
@@ -102,14 +103,16 @@ public class SpotifyModule implements APIModule{
         switch(attribute){
             case TITLE:
                 searchURL += "track";
+                searchCase = 1;
                 break;
             case ARTIST:
                 searchURL += "artist";
+                searchCase = 2;
                 break;
             case ALBUM:
                 searchURL += "album";
+                searchCase = 3;
                 break;
-
         }
 
         final SpotifyModule module = this;
@@ -135,7 +138,7 @@ public class SpotifyModule implements APIModule{
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        System.out.println("-------ERRRRRRRORRRRRRRRRRRRRRRRRRRRR---------");//Log.d("Error.Response", response);
+                        System.out.println("--ERROR-");//Log.d("Error.Response", response);
                     }
                 }
 
