@@ -25,22 +25,20 @@ import java.util.ArrayList;
 public class SpotifyPlayer extends Activity implements
         PlayerNotificationCallback, ConnectionStateCallback, Playback{
 
-    // TODO: Replace with your client ID
     private static final String CLIENT_ID = "e8d0c93320fe4ac1a42d3f328496b00c";
-    // TODO: Replace with your redirect URI
     private static final String REDIRECT_URI = "myniftyapp://callback";
 
     // Request code that will be passed together with authentication result to the onAuthenticationResult callback
     private static final int REQUEST_CODE = 1337;
-    private ArrayList<Song> queue;
+    private ArrayList<String> uri;
     private Player mPlayer;
+    int currentIndex=0;
+    private boolean play;
     //AttributeSet (songs are a list of attributesets and each attribute set is information recieved from one service (Links)
     //Enum within AttributeSet
 
-    public SpotifyPlayer(ArrayList<Song> songs){
-        queue.addAll(songs);
-
-
+    public SpotifyPlayer(ArrayList<String> uris){
+        uri = uris;
     }
 
     @Override
@@ -62,7 +60,6 @@ public class SpotifyPlayer extends Activity implements
         super.onActivityResult(requestCode, resultCode, intent);
         // Check if result comes from the correct activity
         if (requestCode == REQUEST_CODE) {
-            System.out.println("========================================================TEST=========================================================");
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, intent);
             if (response.getType() == AuthenticationResponse.Type.TOKEN) {
                 Config playerConfig = new Config(this, response.getAccessToken(), CLIENT_ID);
@@ -71,8 +68,7 @@ public class SpotifyPlayer extends Activity implements
                     public void onInitialized(Player player) {
                         mPlayer.addConnectionStateCallback(SpotifyPlayer.this);
                         mPlayer.addPlayerNotificationCallback(SpotifyPlayer.this);
-                        mPlayer.play("spotify:track:3ISTk34XFWxJJnUs5youLa");
-
+//
                     }
 
                     @Override
@@ -119,6 +115,7 @@ public class SpotifyPlayer extends Activity implements
         }
     }
     public void play(){
+        mPlayer.play(uri.get(currentIndex));
     }
 
     public void pause(){
@@ -135,16 +132,15 @@ public class SpotifyPlayer extends Activity implements
     public ArrayList<Song> getQueue(){
        return null;
     }
-    public Song getCurrentSong(){
-        return null;
-    }
 
+    public Song getCurrentSong(){
+        return null;//queue.get(currentIndex);
+    }
 
     @Override
     public void onPlaybackError(ErrorType errorType, String errorDetails) {
         Log.d("MainActivity", "Playback error received: " + errorType.name());
         switch (errorType) {
-            // Handle error type as necessary
             default:
                 break;
         }
@@ -152,7 +148,7 @@ public class SpotifyPlayer extends Activity implements
 
     @Override
     protected void onDestroy() {
-        // VERY IMPORTANT! This must always be called or else you will leak resources
+        // VERY IMPORTANT! Must always be called ot will leak resources
         Spotify.destroyPlayer(this);
         super.onDestroy();
     }
