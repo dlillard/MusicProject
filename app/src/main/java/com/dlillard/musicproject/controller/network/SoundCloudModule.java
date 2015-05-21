@@ -27,7 +27,7 @@ import java.util.ArrayList;
 public class SoundCloudModule implements APIModule {
     private static final String BASE_URL="https://api.soundcloud.com";
     public static final String CLIENT_ID=APICredentialLoader.getSoundCloudClientId().toString();
-    private static final String SERVICE_NAME="SoundCloud";
+    public static final String SERVICE_NAME="SoundCloud";
     private String originalQuery;
 
     private SearchAttributeSetsReceiver receiver;
@@ -97,6 +97,7 @@ public class SoundCloudModule implements APIModule {
             }
         });
 
-        ApplicationContext.requestQueue.add(request);
+        ApplicationContext.requestQueue.cancelAll(SERVICE_NAME);
+        ApplicationContext.requestQueue.add(request.setTag(SERVICE_NAME));
     }
 }

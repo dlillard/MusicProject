@@ -32,7 +32,7 @@ import java.util.Iterator;
 public class SpotifyModule implements APIModule{
     private SearchAttributeSetsReceiver receiver;
     private String originalValue;
-    private static final String SERVICE_NAME = "Spotify";
+    public static final String SERVICE_NAME = "Spotify";
     private String BASE_URL = "https://api.spotify.com/v1/search?q=";
     public static int searchCase = 0;
     public void search(SearchAttributeSetsReceiver receiver, AttributeSet.AttributeName attribute, String value){
@@ -124,7 +124,6 @@ public class SpotifyModule implements APIModule{
                 {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // display response
                         Log.d("Response", response.toString());
                         JSONObject ob = null;
                         try {
@@ -143,8 +142,8 @@ public class SpotifyModule implements APIModule{
                 }
 
         );
-// add it to the RequestQueue
-        ApplicationContext.requestQueue.add(getRequest);
+        ApplicationContext.requestQueue.cancelAll(SERVICE_NAME);
+        ApplicationContext.requestQueue.add(getRequest.setTag(SERVICE_NAME));
 
     }
 }

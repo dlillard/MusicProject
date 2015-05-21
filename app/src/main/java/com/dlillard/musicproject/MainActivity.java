@@ -1,21 +1,24 @@
 package com.dlillard.musicproject;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dlillard.musicproject.controller.Playback.SpotifyPlayer;
 import com.dlillard.musicproject.controller.network.SearchAttributeSetsReceiver;
 import com.dlillard.musicproject.controller.network.SoundCloudModule;
 import com.dlillard.musicproject.controller.ui.AppDrawerAdapter;
@@ -27,18 +30,20 @@ import com.dlillard.musicproject.view.SearchFragment;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity implements SearchAttributeSetsReceiver, MenuItemCompat.OnActionExpandListener {
+public class MainActivity extends ActionBarActivity implements SearchAttributeSetsReceiver, MenuItem.OnActionExpandListener {
     private FragmentManager fm;
     private SearchFragment searchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         fm = getFragmentManager();
         setContentView(R.layout.activity_main);
 
-        searchFragment = new SearchFragment();
+        setProgressBarIndeterminateVisibility(true);
 
+        searchFragment = new SearchFragment();
 
        /* AppDrawerAdapter appDrawerAdapter = new AppDrawerAdapter();
         ListView drawer = (ListView) findViewById(R.id.left_drawer);

@@ -1,6 +1,9 @@
 package com.dlillard.musicproject.model.library;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import com.dlillard.musicproject.controller.network.SpotifyModule;
 import com.dlillard.musicproject.model.library.AttributeSet.AttributeName;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,21 +12,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by dlillard on 4/3/15.
  */
 public class Song {
-    private ArrayList<com.dlillard.musicproject.model.library.AttributeSet> data;
+    private SoundCloudAttributeSet soundCloudAttributeSet;
+    private SpotifyAttributeSet spotifyAttributeSet;
 
-    public Song() {
-        data = new ArrayList<AttributeSet>();
+    public void addAttributeSet(AttributeSet toAdd){
+        if(toAdd instanceof SoundCloudAttributeSet)
+            soundCloudAttributeSet = (SoundCloudAttributeSet) toAdd;
+        else if(toAdd instanceof SpotifyAttributeSet)
+            spotifyAttributeSet = (SpotifyAttributeSet) toAdd;
     }
 
-    public void addAtributeSet(AttributeSet serviceData){
-        data.add(serviceData);
+    public SpotifyAttributeSet getSpotifyAttributeSet() {
+            return spotifyAttributeSet;
     }
 
-    public int getAttributeSetCount(){
-        return data.size();
-    }
-
-    public AttributeSet getAttributeSet(int index){
-        return data.get(index);
+    public SoundCloudAttributeSet getSoundCloudAttributeSet(){
+            return soundCloudAttributeSet;
     }
 }

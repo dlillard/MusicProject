@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 
 import com.dlillard.musicproject.model.library.AttributeSet;
 import com.dlillard.musicproject.model.library.Song;
+import com.dlillard.musicproject.model.library.SoundCloudAttributeSet;
 import com.dlillard.musicproject.util.ApplicationContext;
 
 import java.io.IOException;
@@ -21,6 +22,16 @@ public class SoundCloudPlayer implements Playback, MediaPlayer.OnCompletionListe
     public SoundCloudPlayer(ArrayList<Song> songs){
         queue=new ArrayList<Song>();
         queue.addAll(songs);
+        mediaPlayers = new ArrayList<MediaPlayer>();
+        mediaPlayers.add(new MediaPlayer());
+        prepare();
+    }
+
+    public SoundCloudPlayer(SoundCloudAttributeSet s){
+        queue=new ArrayList<Song>();
+        Song s1 = new Song();
+        s1.addAttributeSet(s);
+        queue.add(s1);
         mediaPlayers = new ArrayList<MediaPlayer>();
         mediaPlayers.add(new MediaPlayer());
         prepare();
@@ -75,7 +86,7 @@ public class SoundCloudPlayer implements Playback, MediaPlayer.OnCompletionListe
     }
 
     private String getSongURL(int index){
-        return queue.get(index).getAttributeSet(0).getValue(AttributeSet.AttributeName.URL);
+        return queue.get(index).getSoundCloudAttributeSet().getValue(AttributeSet.AttributeName.URL);
     }
 
     private void prevPrepare(){
