@@ -25,11 +25,7 @@ public class SpotifyAttributeSet extends AttributeSet {
                 break;
         }
         insertFromDelegate(delegate, AttributeName.ID, "id");
-        /*
-        insertFromDelegate(delegate, AttributeName.DATE, "created_at");
-        insertFromDelegate(delegate, AttributeName.USER, "user");
-        insertFromDelegate(delegate, AttributeName.URL, "stream_url");
-        */
+
         //attributes.put(/*AttributeName.URL, attributes.get(AttributeName.URL) + "?client_id=" + "e8d0c93320fe4ac1a42d3f328496b00c"*/);
     }
 }
