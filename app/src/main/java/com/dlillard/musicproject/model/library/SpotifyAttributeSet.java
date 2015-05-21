@@ -1,6 +1,7 @@
 package com.dlillard.musicproject.model.library;
 
 import com.dlillard.musicproject.controller.network.SoundCloudModule;
+import com.dlillard.musicproject.controller.network.SpotifyModule;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.util.HashMap;
@@ -15,9 +16,15 @@ public class SpotifyAttributeSet extends AttributeSet {
     public SpotifyAttributeSet(Map<String, Object> delegate) {
         attributes = new HashMap<AttributeName, String>();
 
-        insertFromDelegate(delegate, AttributeName.ARTWORK, "tracks");
-        //insertFromDelegate(delegate, AttributeName.ID, "artis");
-
+        switch(SpotifyModule.searchCase) {
+            case 1:
+                insertFromDelegate(delegate, AttributeName.TITLE, "name");
+                break;
+            case 2:
+                insertFromDelegate(delegate, AttributeName.ARTIST, "name");
+                break;
+        }
+        insertFromDelegate(delegate, AttributeName.ID, "id");
         /*
         insertFromDelegate(delegate, AttributeName.DATE, "created_at");
         insertFromDelegate(delegate, AttributeName.USER, "user");
